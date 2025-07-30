@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.verify-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #bfdbfe, #c084fc); /* from-blue-200 to-purple-400 */
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 112px; 
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .logo {
+    left: 80px;
+    width: 128px; 
+  }
+}
+
+.verify-form {
+  background-color: #0f172a; 
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  width: 384px; 
+  font-size: 14px;
+  color: white;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.form-subtitle {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #a5b4fc; 
+}
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem; 
+  gap: 8px; 
+}
+
+.otp-input {
+  width: 48px;       
+  height: 48px;     
+  background-color: #333A5C;
+  color: white;
+  text-align: center;
+  font-size: 1.25rem; 
+  border: none;
+  border-radius: 6px; 
+  outline: none;
+}
+
+.otp-input:focus {
+  box-shadow: 0 0 0 2px #a5b4fc; 
+}
+.verify-btn {
+  width: 100%;
+  padding: 12px 0; 
+  background: linear-gradient(to right, #6366f1, #312e81); 
+  color: white;
+  border: none;
+  border-radius: 9999px; 
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.verify-btn:hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,90 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  position: absolute;
+  top: 0;
+}
+
+@media (min-width: 640px) {
+  .navbar {
+    padding: 1.5rem 6rem;
+  }
+}
+
+.navbar-logo {
+  width: 7rem; /* default for small screens */
+  margin-left: 1rem;
+
+  /* 8rem for screens >= 640px */
+}
+@media (min-width: 640px) {
+  .navbar-logo {
+    width: 14rem;
+  }
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  margin-right: 1.7rem;
+  color: #4b5563; 
+  border: 1px solid #6b7280; 
+  border-radius: 9999px; /* fully rounded */
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  cursor: pointer;
+  background-color: #f3f4f6; 
+}
+.circle-container {
+  width: 32px;               
+  height: 32px;             
+  display: flex;             
+  justify-content: center;   
+  align-items: center;       
+  border-radius: 50%;    
+  background-color: black;   
+  color: white;              
+  position: relative;        
+}
+.menu-container {
+  position: absolute;      
+  top: 0;                  
+  right: 0;                
+  z-index: 10;            
+  padding-top: 40px;       
+  display: none;        
+  color: black;            
+  border-radius: 4px;      /* rounded */
+}
+
+/* To simulate `group-hover`, show menu on parent hover */
+.parent:hover .menu-container {
+  display: block;
+  cursor: pointer;
+}
+
+.menu {
+  list-style: none;        
+  margin: 0;               
+  padding: 8px;            
+  background-color: #f3f4f6; 
+  font-size: 14px;         
+}
+
+.menu-item {
+  padding: 4px 8px;        
+  cursor: pointer;         
+}
+
+.menu-item:hover {
+  background-color: #e5e7eb; 
+}
