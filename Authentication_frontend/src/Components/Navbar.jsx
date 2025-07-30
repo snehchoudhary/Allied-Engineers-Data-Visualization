@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import {assets} from '../assets/assets.js'
-import './navbar.css'
+import './Navbar.css'
 import {useNavigate} from 'react-router-dom'
 import { AppContext } from '../Context/app_context.jsx'
 import{toast} from 'react-toastify'

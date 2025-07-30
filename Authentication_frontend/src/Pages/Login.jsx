@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
-import './login.css'
+import './Login.css'
 import { AppContext } from '../Context/app_context'
 import axios from 'axios'
 import { toast } from 'react-toastify'
