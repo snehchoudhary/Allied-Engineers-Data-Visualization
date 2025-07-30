@@ -1,0 +1,25 @@
+.map-legend {
+  position: static;
+  bottom: 30px;
+  left: 30px;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  z-index: 10;
+}
+
+.map-legend div {
+  position: static;
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 1px solid #333;
+}

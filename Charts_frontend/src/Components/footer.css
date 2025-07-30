@@ -1,0 +1,47 @@
+.footer{
+    background-color:  #0052A4;
+    color: white;
+    margin: 0;
+    padding: 40px 20px;
+    text-align: center;
+}
+.footer .logo img{
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.grid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+.footerBox{
+    flex: 1 1 250px;
+    max-width: 300px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+.footerBox h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.footerBox p{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.footer-contact{
+    font-size: 18px;
+}
+.footer-contact a{
+    color: #fcd400;
+    text-decoration: underline;
+}

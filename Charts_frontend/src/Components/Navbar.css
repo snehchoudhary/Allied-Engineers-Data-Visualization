@@ -1,0 +1,25 @@
+.navbar {
+  background-color: #0052A4;
+  color: #ffffff;
+  padding: 1rem 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  border-bottom: 4px solid #0052A4;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 80px;
+  width: auto;
+  margin-right: 1rem;
+}
+
+.navbar-text {
+  font-size: 2.1rem;
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: center;
+}
+
