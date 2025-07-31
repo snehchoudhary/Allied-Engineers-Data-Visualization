@@ -49,10 +49,6 @@ const ElevationChart = () => {
   const elevationValues = cleanData.map((row) => row[yKey1]);
   const hlValues = cleanData.map((row) => row[yKey2]);
 
-  console.log('ElevationChart labels:', labels);
-  console.log('ElevationChart elevationValues:', elevationValues);
-  console.log('ElevationChart hlValues:', hlValues);
-
   const chartData = {
     labels,
     datasets: [
