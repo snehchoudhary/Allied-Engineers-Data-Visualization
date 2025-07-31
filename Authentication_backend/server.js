@@ -145,8 +145,8 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 const allowedOrigins = [
-  "https://allied-engineers-authfrontend-new.onrender.com",
-  "https://allied-engineers-chartsfrontend.onrender.com"
+  "https://allied-engineers-authfrontend-new.onrender.com/api/",
+  "https://allied-engineers-chartsfrontend.onrender.com/api/"
 ];
 
 app.use(cors({
