@@ -1,50 +1,29 @@
 import React, { createContext, useState, useEffect } from 'react';
-import Papa from 'papaparse';
+import {parse} from 'papaparse';
 import * as XLSX from 'xlsx';
+import { saveToIndexedDB, loadFromIndexedDB, deleteFromIndexedDB } from './indexedDb';
 
 export const FileContext = createContext();
 
 export const FileProvider = ({ children }) => {
   const [fileDataXLI, setFileDataXLI] = useState([]);
-  const [fileNameXLI, setFileNameXLI] = useState('');
   const [fileDataICE, setFileDataICE] = useState([]);
-  const [fileNameICE, setFileNameICE] = useState('');
   const [markersXLI, setMarkersXLI] = useState([]);
 
-  //Restore data from localStorage on mount
+ 
+  // Load from IndexedDB on initial load
   useEffect(() => {
-    const storedXLI = localStorage.getItem('fileDataXLI');
-    const storedXLIName = localStorage.getItem('fileNameXLI');
-    const storedICE = localStorage.getItem('fileDataICE');
-    const storedICEName = localStorage.getItem('fileNameICE');
+    (async () => {
+      const XLI = await loadFromIndexedDB('fileDataXLI');
+      const ICE = await loadFromIndexedDB('fileDataICE');
+      const markers = await loadFromIndexedDB('markersXLI');
 
-    if (storedXLI){
-      const parsed = JSON.parse(storedXLI);
-      setFileDataXLI(parsed);
-      setMarkersXLI(extractMarkers(parsed));
-      setFileNameXLI(storedXLIName || '');
-    }
-    if (storedICE){
-      const parsed = JSON.parse(storedICE);
-      setFileDataICE(parsed);
-      setFileNameICE(storedICEName || '');
-    }
+      if (XLI) setFileDataXLI(XLI);
+      if (ICE) setFileDataICE(ICE);
+      if (markers) setMarkersXLI(markers);
+    })();
   }, []);
 
-  // Function to rename duplicate headers uniquely
-  const renameDuplicateHeaders = (headers) => {
-    const seen = {};
-    return headers.map((header) => {
-      let newHeader = header;
-      if (seen[header]) {
-        newHeader = header + '_' + seen[header];
-        seen[header] += 1;
-      } else {
-        seen[header] = 1;
-      }
-      return newHeader;
-    });
-  };
 
   // ✅ Function to extract markers from data
   const extractMarkers = (data) => {
@@ -64,127 +43,51 @@ export const FileProvider = ({ children }) => {
       .filter(Boolean);
   };
 
-  const handleFileUpload = (file, fileType) => {
-    if (!file) return;
-
-    const ext = file.name.split('.').pop().toLowerCase();
-    const supported = ['csv'];
-
-    if (!supported.includes(ext)) {
-      alert('Unsupported file format. Please upload a .csv file.');
-      return;
-    }
-
-    if (fileType === 'XLI') {
-      setFileNameXLI(file.name);
-    } else if (fileType === 'ICE') {
-      setFileNameICE(file.name);
-    }
-
+   // Parse CSV or Excel files
+  const handleFileUpload = (file, type) => {
+    console.log('handleFileUpload called with file:', file, 'type:', type);
     const reader = new FileReader();
-
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const fileContent = e.target.result;
+      const fileType = type.toLowerCase();
 
-      const handleParsedData = (data) => {
-        if (fileType === 'XLI'){
-          setFileDataXLI(data);
-          setFileNameXLI(file.name);
-          setMarkersXLI(extractMarkers(data));
-          localStorage.setItem('fileDataXLI', JSON.stringify(data));
-          localStorage.setItem('fileNameXLI', file.name);
-        }
-        else if(fileType === 'ICE') {
-           setFileDataICE(data);
-           setFileNameICE(file.name);
-           localStorage.setItem('fileDataICE', JSON.stringify(data));
-           localStorage.setItem('fileNameICE', file.name);
-        }
-      };
-
-      if (ext === 'csv') {
-        Papa.parse(fileContent, {
-          header: true,
-          dynamicTyping: true,
-          skipEmptyLines: true,
-          transformHeader: (header) => {
-            return header.trim();
-          },
-          complete: (result) => {
-            if (result.meta && result.meta.fields) {
-              const renamedHeaders = renameDuplicateHeaders(result.meta.fields);
-              const renamedData = result.data.map(row => {
-                const newRow = {};
-                renamedHeaders.forEach((newHeader, index) => {
-                  const oldHeader = result.meta.fields[index];
-                  newRow[newHeader] = row[oldHeader];
-                });
-                return newRow;
-              });
-              
-              if (fileType === 'XLI') {
-                setFileDataXLI(renamedData);
-                setMarkersXLI(extractMarkers(renamedData));
-                localStorage.setItem('fileDataXLI', JSON.stringify(renamedData));
-                localStorage.setItem('fileNameXLI', file.name);
-              } else if (fileType === 'ICE') {
-                setFileDataICE(renamedData);
-                localStorage.setItem('fileDataICE', JSON.stringify(renamedData));
-                localStorage.setItem('fileNameICE', file.name);
-              }
-            } else {
-              if (fileType === 'XLI') {
-                setFileDataXLI(result.data);
-                setMarkersXLI(extractMarkers(result.data));
-                localStorage.setItem('fileDataXLI', JSON.stringify(result.data));
-                localStorage.setItem('fileNameXLI', file.name);
-              } else if (fileType === 'ICE') {
-                setFileDataICE(result.data);
-                localStorage.setItem('fileDataICE', JSON.stringify(result.data));
-                localStorage.setItem('fileNameICE', file.name);
-              }
-            }
-          },
-        });
-      } else if (ext === 'xls' || ext === 'xlsx') {
-        const workbook = XLSX.read(fileContent, { type: 'binary' });
-        const sheet = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheet];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '', range: 1 });
-        if (fileType === 'XLI') {
-          setFileDataXLI(jsonData);
-          setMarkersXLI(extractMarkers(jsonData));
-          localStorage.setItem('fileDataXLI', JSON.stringify(jsonData));
-          localStorage.setItem('fileNameXLI', file.name);
-        } else if (fileType === 'ICE') {
-          setFileDataICE(jsonData);
-          localStorage.setItem('fileDataICE', JSON.stringify(jsonData));
-          localStorage.setItem('fileNameICE', file.name);
-        }
-      }
+      parse(fileContent, {
+        header: true,
+        skipEmptyLines: true,
+        complete: async (results) => {
+          console.log('papaparse complete callback, results:', results);
+          const parsedData = results.data;
+          if (fileType === 'xli') {
+            setFileDataXLI(parsedData);
+            setMarkersXLI(extractMarkers(parsedData));
+            await saveToIndexedDB('fileDataXLI', parsedData);
+          } else if (fileType === 'ice') {
+            setFileDataICE(parsedData);
+            await saveToIndexedDB('fileDataICE', parsedData);
+          } else if (fileType === 'markersxli') {
+            setMarkersXLI(parsedData);
+            await saveToIndexedDB('markersXLI', parsedData);
+          }
+        },
+      });
     };
 
-    if (ext === 'csv') {
-      reader.readAsText(file);
-    } else {
-      reader.readAsBinaryString(file);
-    }
+    reader.readAsText(file);
   };
 
-  const clearData = () => {
+  const clearFileData = async () => {
     setFileDataXLI([]);
-    setFileNameXLI('');
     setFileDataICE([]);
-    setFileNameICE('');
     setMarkersXLI([]);
-    localStorage.removeItem('fileDataXLI');
-    localStorage.removeItem('fileNameXLI');
-    localStorage.removeItem('fileDataICE');
-    localStorage.removeItem('fileNameICE');
+
+    await deleteFromIndexedDB('fileDataXLI');
+    await deleteFromIndexedDB('fileDataICE');
+    await deleteFromIndexedDB('markersXLI');
   };
 
   return (
-    <FileContext.Provider value={{ fileDataXLI, fileNameXLI, fileDataICE, fileNameICE, markersXLI, handleFileUpload, clearData }}>
+    <FileContext.Provider 
+    value={{ fileDataXLI, fileDataICE, markersXLI, handleFileUpload, clearFileData, extractMarkers }}>
       {children}
     </FileContext.Provider>
   );

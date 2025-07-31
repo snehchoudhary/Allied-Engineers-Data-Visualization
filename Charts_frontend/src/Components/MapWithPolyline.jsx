@@ -8,6 +8,8 @@ const MapTilerMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
 
+  console.log('markersXLI:', markersXLI);
+
   const maptilerKey = 'Q858GrAMqnhLjtnBRyj5';
 
   useEffect(() => {
