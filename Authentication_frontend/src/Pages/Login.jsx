@@ -20,42 +20,81 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const onSubmitHandler = async (e) => {
+  
+const onSubmitHandler = async (e) => {
+  e.preventDefault();
 
-    try{
-      e.preventDefault();
+  try {
+    if (state === 'Sign Up') {
+      const { data } = await axios.post(
+        backendUrl + '/api/auth/register',
+        { name, username, email, password },
+        { withCredentials: true } // ✅ Add this
+      );
 
-      axios.defaults.withCredentials = true
-       
-      if(state === 'Sign Up'){
-        const {data} = await axios.post(backendUrl + '/api/auth/register', {name, username, email, password})
-
-          if(data.success){
-            toast.success(data.message);
-            // Navigate to email verification page after successful registration
-            navigate('/email-verify')
-          }else{
-            toast.error(data.message)
-          }
-      }else{
-         
-        const {data} = await axios.post(backendUrl + '/api/auth/login', {username,email, password})
-
-          if(data.success){
-            setIsLoggedin(true)
-            await getUserData(data.userId)
-            window.location.href = import.meta.env.VITE_FRONTEND_URL;
-
-          }else{
-            toast.error(data.message)
-          }
+      if (data.success) {
+        toast.success(data.message);
+        navigate('/email-verify');
+      } else {
+        toast.error(data.message);
       }
-    }catch(error){
-     toast.error(error.message)
+    } else {
+      const { data } = await axios.post(
+        backendUrl + '/api/auth/login',
+        { username, email, password },
+        { withCredentials: true } // ✅ Add this
+      );
+
+      if (data.success) {
+        setIsLoggedin(true);
+        await getUserData(data.userId);
+        window.location.href = import.meta.env.VITE_FRONTEND_URL;
+      } else {
+        toast.error(data.message);
+      }
     }
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+  // const onSubmitHandler = async (e) => {
+
+    // try{
+    //   e.preventDefault();
+
+    //   axios.defaults.withCredentials = true
+       
+    //   if(state === 'Sign Up'){
+    //     const {data} = await axios.post(backendUrl + '/api/auth/register', {name, username, email, password}),
+    //       {withCredentials: true}
+
+    //       if(data.success){
+    //         toast.success(data.message);
+    //         // Navigate to email verification page after successful registration
+    //         navigate('/email-verify')
+    //       }else{
+    //         toast.error(data.message)
+    //       }
+    //   }else{
+         
+    //     const {data} = await axios.post(backendUrl + '/api/auth/login', {username,email, password})
+
+    //       if(data.success){
+    //         setIsLoggedin(true)
+    //         await getUserData(data.userId)
+    //         window.location.href = import.meta.env.VITE_FRONTEND_URL;
+
+    //       }else{
+    //         toast.error(data.message)
+    //       }
+    //   }
+    // }catch(error){
+    //  toast.error(error.message)
+    // }
    
 
-  }
+  // }
   return (
     <div className="login-container">
       <img
