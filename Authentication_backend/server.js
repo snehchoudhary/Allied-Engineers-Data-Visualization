@@ -42,10 +42,16 @@ const port = process.env.PORT || 4000;
 
 connectDB();
 
+// const allowedOrigins = [
+//   process.env.CHART_FRONTEND_URL,
+//   process.env.AUTHENTICATION_FRONTEND_URL
+// ].filter(Boolean);
+
+// ✅ HARD-CODED ALLOWED ORIGINS TO AVOID ENV FAILURES ON RENDER
 const allowedOrigins = [
-  process.env.CHART_FRONTEND_URL,
-  process.env.AUTHENTICATION_FRONTEND_URL
-].filter(Boolean);
+  "https://allied-engineers-authfrontend-new.onrender.com",
+  "https://allied-engineers-chartsfrontend.onrender.com"
+];
 
 console.log("Allowed Origins:", allowedOrigins); // DEBUGGING
 
