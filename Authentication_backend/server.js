@@ -91,6 +91,46 @@
 
 // app.listen(port, () => console.log(`Server started on PORT:${port}`));
 
+// import express from "express";
+// import cors from "cors";
+// import "dotenv/config";
+// import cookieParser from "cookie-parser";
+// import connectDB from "./config/mongodb.js";
+// import authRouter from "./routes/authRoutes.js";
+// import userRouter from "./routes/userRoutes.js";
+
+// const app = express();
+// const port = process.env.PORT || 4000;
+
+// connectDB();
+
+// // ✅ Hardcoded frontend origins (RECOMMENDED for Render)
+// const allowedOrigins = [
+//   "https://allied-engineers-authfrontend-new.onrender.com",
+//   "https://allied-engineers-chartsfrontend.onrender.com"
+// ];
+
+// console.log("Allowed Origins:", allowedOrigins); // Debugging
+
+// // ✅ CORRECT: Apply CORS with credentials
+// app.use(cors({
+//   origin: allowedOrigins,
+//   credentials: true
+// }));
+
+// app.use(express.json());
+// app.use(cookieParser());
+
+// // ✅ API routes
+// app.get('/', (req, res) => {
+//   res.send("API working");
+// });
+// app.use('/api/auth', authRouter);
+// app.use('/api/user', userRouter);
+
+// app.listen(port, () => console.log(`✅ Server started on PORT: ${port}`));
+
+
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -104,29 +144,28 @@ const port = process.env.PORT || 4000;
 
 connectDB();
 
-// ✅ Hardcoded frontend origins (RECOMMENDED for Render)
 const allowedOrigins = [
   "https://allied-engineers-authfrontend-new.onrender.com",
   "https://allied-engineers-chartsfrontend.onrender.com"
 ];
 
-console.log("Allowed Origins:", allowedOrigins); // Debugging
-
-// ✅ CORRECT: Apply CORS with credentials
 app.use(cors({
   origin: allowedOrigins,
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ API routes
 app.get('/', (req, res) => {
   res.send("API working");
 });
+
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
-app.listen(port, () => console.log(`✅ Server started on PORT: ${port}`));
+app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+
 
