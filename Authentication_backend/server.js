@@ -29,9 +29,71 @@
 
 // app.listen(port, () => console.log(`Server started on PORT:${port}`));
 
+// import express from "express";
+// import cors from 'cors';
+// import 'dotenv/config';
+// import cookieParser from "cookie-parser";
+// import connectDB from "./config/mongodb.js";
+// import authRouter from "./routes/authRoutes.js";
+// import userRouter from "./routes/userRoutes.js";
+
+// const app = express();
+// const port = process.env.PORT || 4000;
+
+// connectDB();
+
+// // const allowedOrigins = [
+// //   process.env.CHART_FRONTEND_URL,
+// //   process.env.AUTHENTICATION_FRONTEND_URL
+// // ].filter(Boolean);
+
+// // ✅ HARD-CODED ALLOWED ORIGINS TO AVOID ENV FAILURES ON RENDER
+// const allowedOrigins = [
+//   "https://allied-engineers-authfrontend-new.onrender.com",
+//   "https://allied-engineers-chartsfrontend.onrender.com"
+// ];
+
+// console.log("Allowed Origins:", allowedOrigins); // DEBUGGING
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       console.log("Blocked origin:", origin); // DEBUGGING
+//       callback(new Error('CORS error: Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true
+// }));
+
+// // For preflight requests (OPTIONS)
+// app.options('*', cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('CORS error: Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true
+// }));
+
+// app.use(express.json());
+// app.use(cookieParser());
+
+// // Routes
+// app.get('/', (req, res) => {
+//   res.send("API working");
+// });
+// app.use('/api/auth', authRouter);
+// app.use('/api/user', userRouter);
+
+// app.listen(port, () => console.log(`Server started on PORT:${port}`));
+
 import express from "express";
-import cors from 'cors';
-import 'dotenv/config';
+import cors from "cors";
+import "dotenv/config";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
@@ -42,51 +104,29 @@ const port = process.env.PORT || 4000;
 
 connectDB();
 
-// const allowedOrigins = [
-//   process.env.CHART_FRONTEND_URL,
-//   process.env.AUTHENTICATION_FRONTEND_URL
-// ].filter(Boolean);
-
-// ✅ HARD-CODED ALLOWED ORIGINS TO AVOID ENV FAILURES ON RENDER
+// ✅ Hardcoded frontend origins (RECOMMENDED for Render)
 const allowedOrigins = [
   "https://allied-engineers-authfrontend-new.onrender.com",
   "https://allied-engineers-chartsfrontend.onrender.com"
 ];
 
-console.log("Allowed Origins:", allowedOrigins); // DEBUGGING
+console.log("Allowed Origins:", allowedOrigins); // Debugging
 
+// ✅ CORRECT: Apply CORS with credentials
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Blocked origin:", origin); // DEBUGGING
-      callback(new Error('CORS error: Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-
-// For preflight requests (OPTIONS)
-app.options('*', cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS error: Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true
 }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
+// ✅ API routes
 app.get('/', (req, res) => {
   res.send("API working");
 });
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
-app.listen(port, () => console.log(`Server started on PORT:${port}`));
+app.listen(port, () => console.log(`✅ Server started on PORT: ${port}`));
+
