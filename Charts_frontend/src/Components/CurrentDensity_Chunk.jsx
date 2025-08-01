@@ -8,12 +8,14 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
+  BarController,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement,BarElement, BarController, Title, Tooltip, Legend);
 
 const CurrentDensity_Chunk = () => {
   const { fileDataXLI } = useContext(FileContext);
@@ -129,6 +131,7 @@ const CurrentDensity_Chunk = () => {
               yAxisID: 'y1', //Secondary Y-Axis
             },
             {
+              type: 'bar',
               label: 'Actual Dig sites',
               data: data7,
               borderColor: 'darkgreen',
