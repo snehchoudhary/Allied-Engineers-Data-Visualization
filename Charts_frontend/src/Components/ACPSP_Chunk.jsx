@@ -1,4 +1,4 @@
-import React, { useContext, useState,  useEffect } from 'react';
+import React, { useContext, useState,  useEffect, useRef } from 'react';
 import { FileContext } from './FileContext';
 import { useLocation } from 'react-router-dom';
 import annotationPlugin from 'chartjs-plugin-annotation';
@@ -23,6 +23,8 @@ const ACPSP_Chunks = () => {
   const query = new URLSearchParams(useLocation().search);
   const chunkSize = parseInt(query.get('chunk') || '500');
   const [threshold1, setThreshold1] = useState(30);
+  const chartContainerRef = useRef(null);
+
 
 // Load from localStorage if no context data
   useEffect(() => {
@@ -110,7 +112,7 @@ const ACPSP_Chunks = () => {
        
       </div>
 
-      <div ref={chartContainerRef}>
+      <div>
         {chunks.map((chunk, i) => (
           <div
             key={i}
