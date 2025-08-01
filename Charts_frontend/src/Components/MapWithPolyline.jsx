@@ -93,7 +93,7 @@ const MapTilerMap = () => {
     <>
       <div
         ref={mapContainerRef}
-        style={{ width: '100%', height: '100vh', margin: '20px' }}
+        style={{ width: '100%', height: '50vh', margin: '20px' }}
         onMouseEnter={() => {
           if (mapRef.current) mapRef.current.scrollZoom.enable();
         }}
