@@ -138,7 +138,7 @@ const CorrosionRate = () => {
       boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
     }}>
 
-      <h2>Chart Of Corrosion Rate (Worst + Realistic)</h2>
+      <h2>Corrosion Rate (Worst + Realistic)</h2>
      {fileDataICE.length > 0 ? <Line data={chartData} options={options} /> : null}
 
       {/* Button to show chunks */}
