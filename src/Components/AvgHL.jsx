@@ -50,7 +50,9 @@ const AvgHLChart = () => {
 
   const elevationValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey1]) }));
   const AvgHLValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey2]) }));
-  const dExValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey3]) }));
+  // const dExValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey3]) }));
+
+  const dExPositions = [...new Set(cleanData.map(row => Number(row[yKey3])))].filter(val => !isNaN(val));
 
 
   const chartData = {
@@ -79,16 +81,16 @@ const AvgHLChart = () => {
         showLine: false,
         pointHoverRadius: 5,
       },
-      {
-        label: `${yKey3} `,
-        data: dExValues,
-        fill: false,
-        borderColor: '#FF8C00',
-        backgroundColor: '#FF8C00',
-        tension: 0.4,
-        yAxisID: 'y1', //Secondary Axis
-        pointRadius: 0,
-      },
+      // {
+      //   label: `${yKey3} `,
+      //   data: dExValues,
+      //   fill: false,
+      //   borderColor: '#FF8C00',
+      //   backgroundColor: '#FF8C00',
+      //   tension: 0.4,
+      //   yAxisID: 'y', //Secondary Axis
+      //   pointRadius: 0,
+      // },
     ],
   };
 
@@ -103,6 +105,29 @@ const AvgHLChart = () => {
       legend: {
         display: true,
       },
+      annotation: {
+        annotations: dExPositions.reduce((acc, val, idx) => {
+          acc[`dexLine${idx}`] = {
+            type: 'line',
+            xMin: val,
+            xMax: val,
+            borderColor: 'orange',
+            borderWidth: 2,
+            borderDash: [6,6],
+            label: {
+              display: true,
+              content: 'DEx',
+              rotation: -90,
+              backgroundColor: 'rgba(255,140,0,0.7)',
+              color: 'white',
+              font: {
+                size: 10
+              }
+            }
+          };
+          return acc;
+        }, {})
+      }
     },
 
     scales: {

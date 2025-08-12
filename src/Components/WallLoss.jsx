@@ -188,7 +188,7 @@ const WallLoss = () => {
       boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
     }}>
 
-      <h2>%Wall Loss (Worst + Realistic)</h2>
+      <h2>%Wall Loss</h2>
      {fileDataICE.length > 0 ? (
     <Line data={chartData} options={options} />
   ) : (

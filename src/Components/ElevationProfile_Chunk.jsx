@@ -78,8 +78,8 @@ const ElevationProfile_Chunks = () => {
              {
               label: 'ELEVATION PROFILE ANGLES (degrees)',
               data: dataNew,
-              borderColor: '#FF8C00.',
-              backgroundColor: '#FF8C00.',
+              borderColor: '#FF8C00',
+              backgroundColor: '#FF8C00',
               tension: 0.4,
               fill: false,
               yAxisID: 'y1',  //Secondary Y-Axis

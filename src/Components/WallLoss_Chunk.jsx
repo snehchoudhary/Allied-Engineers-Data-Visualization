@@ -211,7 +211,7 @@ const WallLoss_Chunk = () => {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h2>Section-wise Charts of %Wall-Loss (Worst + Realistic) for (Every {chunkSize}m)</h2>
+      <h2>Section-wise Charts of %Wall-Loss for (Every {chunkSize}m)</h2>
       {chunks.length === 0 ? (
         <div style={{ padding: '2rem' }}>
           ⚠️ No data chunks found. Please check your data format or chunk size.

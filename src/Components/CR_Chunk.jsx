@@ -135,7 +135,7 @@ const CR_Chunk = () => {
 
   return (
     <div style = {{padding: '2rem'}}>
-      <h2>Section-wise Charts of Corrosion Rate (Worst + Realistic) for (Every {chunkSize}m)</h2>
+      <h2>Section-wise Charts of Corrosion Rate for (Every {chunkSize}m)</h2>
       {chunks.map((chunk, i) => (
         <div key={i} style={{ marginBottom: '2rem' ,
            padding: '1rem',

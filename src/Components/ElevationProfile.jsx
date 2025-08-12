@@ -49,7 +49,7 @@ const ElevationProfileChart = () => {
   const elevationValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey1]) }));
   const criticalAngleValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey2]) }));
   const elevationAngleValues = cleanData.map(row => ({ x: Number(row[xKey]), y: Number(row[yKey3]) }));
-
+  
   const chartData = {
     datasets: [
       {
